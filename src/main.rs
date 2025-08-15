@@ -8,8 +8,11 @@ mod binance;
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     //binance::tools::get_account_params().await;
-    let balances = binance::wallet::get_balance("USDC".to_string()).await?;
-    println!("{:?}", balances);
+    //let balances = binance::wallet::get_balance("USDC".to_string()).await?;
+    //println!("{:?}", balances);
+
+    let risk = binance::tools::money_management().await?;
+    println!("Risk: {}", risk);
 
     // routes
     let app = Router::new()
