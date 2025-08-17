@@ -4,10 +4,14 @@ use dotenv::dotenv;
 
 mod routes;
 mod models;
+mod mail;
 
 #[tokio::main]
 async fn main() {
     dotenv().ok();
+
+    // test email
+    mail::mailer::get_all_email().await;
 
     // routes
     let app = Router::new()
