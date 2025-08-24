@@ -11,7 +11,7 @@ async fn main() {
     dotenv().ok();
 
     // test email
-    mail::mailer::get_all_email().await;
+    mail::monitor::surveiller_mail();
 
     // routes
     let app = Router::new()
