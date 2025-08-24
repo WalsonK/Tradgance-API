@@ -1,7 +1,7 @@
 use std::time::Duration;
 use std::thread;
 use imap::types::UnsolicitedResponse;
-use crate::mail::tools::get_session;
+use crate::mail::tools::{get_session, extract_body};
 
 pub fn surveiller_mail() {
     thread::spawn(|| {
@@ -16,13 +16,7 @@ pub fn surveiller_mail() {
 
             // Boucle de surveillance avec IDLE
             loop {
-                let mut idle = match sess.idle() {
-                    Ok(idle) => idle,
-                    Err(e) => {
-                        eprintln!("[monitor] idle échoué: {}", e);
-                        break;
-                    }
-                };
+                let mut idle = sess.idle();
 
                 // Timeout 25 min (Gmail limite à 30 min)
                 idle.timeout(Duration::from_secs(25 * 60));
@@ -48,8 +42,10 @@ pub fn surveiller_mail() {
                             if let Ok(fetches) = sess.fetch(id.to_string(), "RFC822") {
                                 for f in fetches.iter() {
                                     if let Some(body) = f.body() {
-                                        let mail = std::str::from_utf8(body).unwrap_or("");
-                                        println!("[monitor] Mail reçu:\n{}", mail);
+                                        let mail_raw = std::str::from_utf8(body).unwrap_or("");
+
+                                        let mail = extract_body(mail_raw);
+                                        println!("[monitor] Mail reçu:\n{:?}", mail);
 
                                         // 👉 Ici tu peux parser ton JSON TradingView
                                     }
@@ -59,8 +55,6 @@ pub fn surveiller_mail() {
                     }
                 }
             }
-            let _ = sess.logout();
-            thread::sleep(Duration::from_secs(10));
         }
     });
 }
