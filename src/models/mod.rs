@@ -1,1 +1,1 @@
-mod trade;
+pub mod trade;

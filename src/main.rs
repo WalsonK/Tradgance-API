@@ -5,6 +5,7 @@ use dotenv::dotenv;
 mod routes;
 mod models;
 mod mail;
+mod tester;
 
 #[tokio::main]
 async fn main() {

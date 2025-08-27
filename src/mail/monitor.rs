@@ -2,6 +2,7 @@ use std::time::Duration;
 use std::thread;
 use imap::types::UnsolicitedResponse;
 use crate::mail::tools::{get_session, extract_body};
+use crate::models::trade::TradeSignal;
 
 pub fn surveiller_mail() {
     thread::spawn(|| {
@@ -48,6 +49,8 @@ pub fn surveiller_mail() {
                                         println!("[monitor] Mail reçu:\n{:?}", mail);
 
                                         // 👉 Ici tu peux parser ton JSON TradingView
+                                        let signal =  TradeSignal::new(mail, 0.2) .unwrap();
+                                        println!("{:?}", signal);
                                     }
                                 }
                             }
