@@ -51,6 +51,8 @@ pub fn surveiller_mail() {
                                         // 👉 Ici tu peux parser ton JSON TradingView
                                         let signal =  TradeSignal::new(mail, 0.2) .unwrap();
                                         println!("{:?}", signal);
+
+                                        // lancer trade
                                     }
                                 }
                             }

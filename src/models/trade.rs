@@ -20,7 +20,7 @@ impl TradeSignal {
         for token in normalized.split_whitespace() {
             if let Some((key, value)) = token.split_once(':') {
                 match key.trim().to_lowercase().as_str() {
-                    "Direction" => direction = Some(value.trim().to_string()),
+                    "direction" => direction = Some(value.trim().to_string()),
                     "entry" => entry = value.trim().parse::<f64>().ok(),
                     "take_profit" => take_profit = value.trim().parse::<f64>().ok(),
                     "stop_loss" => stop_loss = value.trim().parse::<f64>().ok(),
