@@ -23,7 +23,7 @@ pub fn extract_body(raw_mail: &str) -> String {
 }
 
 /// Récupère les messages UNSEEN et convertit chacun en `TradeSignal`
-pub fn fetch_and_parse(s: &mut Session<Connection>) -> Vec<TradeSignal> {
+pub fn fetch_and_parse(s: &mut Session<Connection>, risk_amount: f64) -> Vec<TradeSignal> {
     let ids = match s.search("UNSEEN") {
         Ok(ids) => ids,
         Err(e) => {
@@ -39,8 +39,8 @@ pub fn fetch_and_parse(s: &mut Session<Connection>) -> Vec<TradeSignal> {
             let body = fetch.body()?;
             let mail_raw = std::str::from_utf8(body).ok()?;
             let mail = extract_body(mail_raw);
-            println!("[monitor] Mail reçu :\n{:?}", mail);
-            TradeSignal::new(mail, 0.2)
+            println!("[monitor] Corps du mail reçu :\n{:?}", mail);
+            TradeSignal::new(mail, risk_amount)
         })
         .collect()
 }
