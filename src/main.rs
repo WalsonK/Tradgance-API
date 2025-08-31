@@ -1,16 +1,21 @@
 use std::thread;
 use axum::Router;
 use axum::routing::get;
-use dotenv::dotenv;
 
 mod routes;
 mod models;
+mod binance;
 mod mail;
 mod tester;
 
 #[tokio::main]
-async fn main() {
-    dotenv().ok();
+async fn main() -> anyhow::Result<()> {
+    //binance::tools::get_account_params().await;
+    //let balances = binance::wallet::get_balance("USDC".to_string()).await?;
+    //println!("{:?}", balances);
+
+    let risk = binance::tools::money_management().await?;
+    println!("Risk: {}", risk);
 
     thread::spawn(|| {
         // 1. Component : récupération ou reconnexion au serveur
@@ -39,8 +44,10 @@ async fn main() {
 
     // run app
     let addr = "127.0.0.1:3000";
-    let listener = tokio::net::TcpListener::bind(addr).await.unwrap();
+    let listener = tokio::net::TcpListener::bind(addr).await?;
     println!("Listening on http://{}", addr);
 
-    axum::serve(listener, app).await.unwrap();
+    axum::serve(listener, app).await?;
+
+    Ok(())
 }
