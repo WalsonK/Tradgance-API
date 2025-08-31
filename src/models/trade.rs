@@ -1,11 +1,11 @@
 #[derive(Debug)]
 pub struct TradeSignal {
-    pub(crate) devices: String,
-    pub(crate) direction: String,
-    pub(crate) entry_price: f64,
-    pub(crate) take_profit: f64,
-    pub(crate) stop_loss: f64,
-    pub(crate) quantity: f64
+    devices: String,
+    direction: String,
+    entry_price: f64,
+    take_profit: f64,
+    stop_loss: f64,
+    quantity: f64
 }
 impl TradeSignal {
     pub fn new(body: String, risk_amount: f64) -> Option<Self> {
