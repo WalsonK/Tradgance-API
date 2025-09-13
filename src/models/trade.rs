@@ -1,7 +1,9 @@
+use crate::models::direction::Direction;
+
 #[derive(Debug)]
 pub struct TradeSignal {
     devices: String,
-    direction: String,
+    direction: Direction,
     entry_price: f64,
     take_profit: f64,
     stop_loss: f64,
@@ -9,7 +11,6 @@ pub struct TradeSignal {
 }
 impl TradeSignal {
     pub fn new(body: String, risk_amount: f64) -> Option<Self> {
-        let mut direction = None;
         let mut entry = None;
         let mut take_profit = None;
         let mut stop_loss = None;
@@ -20,7 +21,6 @@ impl TradeSignal {
         for token in normalized.split_whitespace() {
             if let Some((key, value)) = token.split_once(':') {
                 match key.trim().to_lowercase().as_str() {
-                    "direction" => direction = Some(value.trim().to_string()),
                     "entry" => entry = value.trim().parse::<f64>().ok(),
                     "take_profit" => take_profit = value.trim().parse::<f64>().ok(),
                     "stop_loss" => stop_loss = value.trim().parse::<f64>().ok(),
@@ -29,10 +29,11 @@ impl TradeSignal {
             }
         }
 
-        let (direction, entry, take_profit, stop_loss) = (
-            direction?, entry?, take_profit?, stop_loss?
+        let (entry, take_profit, stop_loss) = (
+            entry?, take_profit?, stop_loss?
         );
 
+        let direction = TradeSignal::deduct_direction(entry, take_profit, stop_loss);
         let quantity = TradeSignal::calculate_qty(entry, stop_loss, risk_amount).unwrap();
 
         Some(Self {
@@ -51,6 +52,19 @@ impl TradeSignal {
             return None; // éviter division par zéro
         }
         Some(risk_amount / delta_price)
+    }
+
+    pub fn deduct_direction(entry: f64, tp: f64, sl:f64) -> Direction {
+        if tp > entry && entry > sl {
+            Direction::Buy
+        }else if tp < entry && entry < sl {
+            Direction::Sell
+        }else {
+            panic!(
+                "[Trade Signal] Cant deduct direction : \n\
+                Signal incohérent: entry={entry}, tp={tp}, sl={sl}"
+            );
+        }
     }
 }
 
