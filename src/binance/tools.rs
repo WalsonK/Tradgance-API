@@ -18,15 +18,9 @@ pub async fn get_binance_config() -> ConfigurationRestApi {
 
 pub async fn money_management() -> Result<f64> {
     let balances = binance::wallet::get_balance("USDC".to_string()).await?;
-
     let free_capital: f64 = balances.1.parse::<f64>()
         .expect("Impossible de convertir en f64");
-    println!("{:?}", free_capital);
-
     let risk_amount = free_capital * 0.02;
-    println!("{:?}", risk_amount);
-
-    //let qty = risk_amount / delta_price;
     Ok(risk_amount)
 }
 
