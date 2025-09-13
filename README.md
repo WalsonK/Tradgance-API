@@ -196,7 +196,16 @@ L'application fournit des logs détaillés :
 
 ## 📜 Licence
 
-Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
+Ce projet est distribué sous licence **Creative Commons Attribution - NonCommercial 4.0 International (CC BY-NC 4.0)**.
+
+Cela signifie :
+
+- ✅ Vous pouvez lire, partager, cloner et modifier le code.
+- ❌ Vous ne pouvez **pas** l'utiliser à des fins commerciales sans mon autorisation explicite.
+- ✅ Vous devez citer l’auteur original.
+
+👉 Pour tout usage commercial, merci de me contacter directement.
+Voir le fichier `LICENSE` pour plus de détails.
 
 ## 📞 Support
 
