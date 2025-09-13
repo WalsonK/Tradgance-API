@@ -1,4 +1,3 @@
-use std::thread;
 use axum::Router;
 use axum::routing::get;
 
