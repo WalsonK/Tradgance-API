@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-binance-sdk = { version = "11.0.0", features = ["wallet"]}
+binance-sdk = { version = "11.0.0", features = ["wallet", "spot"] }
 tokio = { version = "1.44.2", features = ["full"] }
 axum = "0.8.3"
 dotenv = "0.15.0"
