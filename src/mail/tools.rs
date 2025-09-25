@@ -40,7 +40,7 @@ pub fn fetch_and_parse(s: &mut Session<Connection>, risk_amount: f64) -> Vec<Tra
             let mail_raw = std::str::from_utf8(body).ok()?;
             let mail = extract_body(mail_raw);
             println!("[monitor] Corps du mail reçu :\n{:?}", mail);
-            TradeSignal::new(mail, risk_amount)
+            TradeSignal::from_str(mail, risk_amount)
         })
         .collect()
 }
