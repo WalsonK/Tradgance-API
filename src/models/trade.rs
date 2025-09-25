@@ -1,5 +1,11 @@
+use serde::Deserialize;
 use crate::models::direction::Direction;
 
+#[derive(Debug, Deserialize)]
+pub struct TradeHttp {
+    take_profit: f64,
+    stop_loss: f64,
+}
 #[derive(Debug)]
 pub struct TradeSignal {
     devices: String,
