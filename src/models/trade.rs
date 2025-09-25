@@ -1,8 +1,14 @@
+use serde::Deserialize;
 use crate::models::direction::Direction;
 
+#[derive(Debug, Deserialize)]
+pub struct TradeHttp {
+    pub(crate) take_profit: f64,
+    pub(crate) stop_loss: f64,
+}
 #[derive(Debug)]
 pub struct TradeSignal {
-    devices: String,
+    symbol: String,
     direction: Direction,
     entry_price: f64,
     take_profit: f64,
@@ -10,7 +16,21 @@ pub struct TradeSignal {
     quantity: f64
 }
 impl TradeSignal {
-    pub fn new(body: String, risk_amount: f64) -> Option<Self> {
+    pub fn new(e: f64, tp: f64, sl:f64, risk_amount: f64) -> Self {
+        let direction = TradeSignal::deduct_direction(e, tp, sl);
+        let quantity = TradeSignal::calculate_qty(e, sl, risk_amount).unwrap();
+
+        Self {
+            symbol: "BTCUSDC".to_string(),
+            direction,
+            entry_price: e,
+            take_profit: tp,
+            stop_loss: sl,
+            quantity
+        }
+    }
+
+    pub fn from_str(body: String, risk_amount: f64) -> Option<Self> {
         let mut entry = None;
         let mut take_profit = None;
         let mut stop_loss = None;
@@ -37,7 +57,7 @@ impl TradeSignal {
         let quantity = TradeSignal::calculate_qty(entry, stop_loss, risk_amount).unwrap();
 
         Some(Self {
-            devices: "USDC/BTC".to_string(),
+            symbol: "BTCUSDC".to_string(),
             direction,
             entry_price: entry,
             take_profit,
