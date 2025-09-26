@@ -8,7 +8,7 @@ pub async fn receive_trade_signal(Json(payload): Json<TradeHttp>) {
 
     // Vérification de la balance et calcul du risk
     let balances = binance::wallet::get_balance("USDC".to_string()).await.unwrap();
-    let risk_amount = binance::tools::money_management().await.unwrap();
+    let risk_amount = binance::tools::money_management(balances.1.to_string()).await.unwrap();
     info!("[TRADING] Binance data well fetch : {:?} & risk calculated : {}", balances, risk_amount);
 
     // récuperation de l'entrée :

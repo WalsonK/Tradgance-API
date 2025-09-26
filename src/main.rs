@@ -26,6 +26,7 @@ async fn main() -> anyhow::Result<()> {
     let app = Router::new()
         .route("/", get(routes::hello::hello))
         .route("/trade", post(routes::trading::receive_trade_signal))
+        .route("/surveiller_mail", post(routes::mail::active_mail_surveillance))
         .layer(cors);
 
     // run app
