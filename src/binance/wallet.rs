@@ -2,6 +2,7 @@ use binance_sdk::wallet;
 use binance_sdk::wallet::rest_api::{AllCoinsInformationParams, CapitalApi};
 use crate::binance::tools;
 use anyhow::Result;
+use tracing::error;
 
 pub async fn get_balance(wanted_symbol: String) -> Result<(String, String)> {
     let config = tools::get_binance_config().await;
@@ -21,5 +22,6 @@ pub async fn get_balance(wanted_symbol: String) -> Result<(String, String)> {
         }
     }
 
+    error!("[WALLET] USDC not found");
     Err(anyhow::anyhow!("USDC non trouvé"))
 }

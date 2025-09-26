@@ -1,5 +1,6 @@
 use serde::Deserialize;
 use crate::models::direction::Direction;
+use std::fmt;
 
 #[derive(Debug, Deserialize)]
 pub struct TradeHttp {
@@ -88,3 +89,17 @@ impl TradeSignal {
     }
 }
 
+impl fmt::Display for TradeSignal {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            "{} {} @{} (tp: {}, sl: {}, qty: {})",
+            self.symbol,
+            self.direction,
+            self.entry_price,
+            self.take_profit,
+            self.stop_loss,
+            self.quantity
+        )
+    }
+}
