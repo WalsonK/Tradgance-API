@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-binance-sdk = { version = "11.0.0", features = ["wallet", "spot"] }
+binance-sdk = { version = "21.0.0", features = ["wallet", "spot"] }
 tokio = { version = "1.44.2", features = ["full"] }
 axum = "0.8.3"
 dotenv = "0.15.0"
@@ -16,3 +16,4 @@ tower-http = { version = "0.6.2", features = ["cors"] }
 tracing = "0.1.41"
 tracing-subscriber = "0.3.19"
 tracing-appender = "0.2.3"
+rust_decimal = "1.37.1"

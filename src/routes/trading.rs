@@ -24,4 +24,7 @@ pub async fn receive_trade_signal(Json(payload): Json<TradeHttp>) {
         risk = %risk_amount,
         "[TRADING] Trade ready 🚀"
     );
+
+    // Send Trade
+    binance::spot::execute_trade(signal).await;
 }

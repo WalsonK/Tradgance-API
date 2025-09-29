@@ -9,12 +9,12 @@ pub struct TradeHttp {
 }
 #[derive(Debug)]
 pub struct TradeSignal {
-    symbol: String,
-    direction: Direction,
-    entry_price: f64,
-    take_profit: f64,
-    stop_loss: f64,
-    quantity: f64
+    pub(crate) symbol: String,
+    pub(crate) direction: Direction,
+    pub(crate) entry_price: f64,
+    pub(crate) take_profit: f64,
+    pub(crate) stop_loss: f64,
+    pub(crate) quantity: f64
 }
 impl TradeSignal {
     pub fn new(e: f64, tp: f64, sl:f64, risk_amount: f64) -> Self {
@@ -72,7 +72,12 @@ impl TradeSignal {
         if delta_price <= 0.0 {
             return None; // éviter division par zéro
         }
-        Some(risk_amount / delta_price)
+        Some(Self::ceil_to_decimals(risk_amount / delta_price, 7))
+    }
+
+    fn ceil_to_decimals(value: f64, decimals: u32) -> f64 {
+        let factor = 10f64.powi(decimals as i32);
+        (value * factor).ceil() / factor
     }
 
     pub fn deduct_direction(entry: f64, tp: f64, sl:f64) -> Direction {
